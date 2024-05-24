@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { useAuth } from "../../../app/hooks/useAuth";
 import { authService } from "../../../app/services/authService";
 import { RegisterParams } from "../../../app/services/authService/registerUser";
 
@@ -29,9 +30,12 @@ export function useRegisterController() {
     },
   });
 
+  const { authenticate } = useAuth();
+
   const handleSubmit = hookFormHandleSubmit(async (data) => {
     try {
       const { accessToken } = await mutateAsync(data);
+      authenticate(accessToken);
     } catch {
       toast.error("Ocorreu um erro ao criar a sua conta");
     }
