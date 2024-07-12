@@ -29,16 +29,27 @@ const colors: Color[] = [
 interface ColorsDropdownInputProps {
   error?: string;
   className?: string;
+  onChange?: (value: string) => void;
+  value?: string;
 }
 
 export function ColorsDropdownInput({
   error,
   className,
+  onChange,
+  value,
 }: ColorsDropdownInputProps) {
-  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
+  const [selectedColor, setSelectedColor] = useState<Color | null>(() => {
+    if (!value) {
+      return null;
+    }
+
+    return colors.find((c) => c.color === value) ?? null;
+  });
 
   function handleSelect(color: Color) {
     setSelectedColor(color);
+    onChange?.(color.color);
   }
 
   return (

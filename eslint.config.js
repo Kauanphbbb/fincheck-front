@@ -14,9 +14,22 @@ export default [
     rules: {
       '@typescript-eslint/no-unused-vars': 'error',
       quotes: ['error', 'single'],
-      semi: [1, 'always'],
       'react/react-in-jsx-scope': 0,
-      'react/display-name': 0
+      'react/display-name': 0,
+      '@typescript-eslint/semi': [1, 'always'],
+      '@typescript-eslint/member-delimiter-style': [
+        'warn',
+        {
+          multiline: {
+            delimiter: 'semi',
+            requireLast: true,
+          },
+          singleline: {
+            delimiter: 'semi',
+            requireLast: false,
+          },
+        },
+      ],
     },
   },
   {

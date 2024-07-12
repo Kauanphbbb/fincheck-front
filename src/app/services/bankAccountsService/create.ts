@@ -1,17 +1,14 @@
-import { sleep } from '../../utils/sleep';
 import { httpClient } from '../httpClient';
 
 export interface BankAccountParams {
-  email: string;
-  password: string;
+  name: string;
+  initialBalance: number;
+  color: string;
+  type: 'CHECKING' | 'INVESTMENT' | 'CASH';
 }
 
-export async function authenticate(params: BankAccountParams) {
-  await sleep(1000);
-  const { data } = await httpClient.post(
-    '/auth/authenticate',
-    params
-  );
+export async function create(params: BankAccountParams) {
+  const { data } = await httpClient.post('/auth/bank-accounts', params);
 
   return data;
 }
