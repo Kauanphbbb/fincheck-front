@@ -8,14 +8,13 @@ interface DatePickerProps {
   onChange: (date: Date) => void;
 }
 
-export function DatePicker({ onChange, value }: DatePickerProps) {
+export function DatePicker({ value, onChange }: DatePickerProps) {
   return (
     <DayPicker
       locale={ptBR}
       selected={value}
       mode="single"
       onSelect={(date) => onChange(date ?? new Date())}
-      className="z-[99]"
       classNames={{
         caption: "flex items-center justify-between",
         nav: "flex gap-1",
@@ -30,13 +29,11 @@ export function DatePicker({ onChange, value }: DatePickerProps) {
         day_selected: "!bg-teal-900 text-white font-medium",
       }}
       formatters={{
-        formatCaption: (date, options) => {
-          return (
-            <span className="text-gray-900 tracking-[-0.408px] font-medium">
-              {capitalizeFirstLetter(format(date, "LLLL yyyy", options))}
-            </span>
-          );
-        },
+        formatCaption: (date, options) => (
+          <span className="text-gray-900 pl-2 tracking-[-0.408px] font-medium">
+            {capitalizeFirstLetter(format(date, "LLLL yyyy", options))}
+          </span>
+        ),
       }}
     />
   );
