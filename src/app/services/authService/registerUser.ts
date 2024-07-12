@@ -1,5 +1,5 @@
-import { sleep } from "../../utils/sleep";
-import { httpClient } from "../httpClient";
+import { sleep } from '../../utils/sleep';
+import { httpClient } from '../httpClient';
 
 export interface RegisterParams {
   name: string;
@@ -14,7 +14,7 @@ interface RegisterResponse {
 export async function registerUser(params: RegisterParams) {
   await sleep(1000);
   const { data } = await httpClient.post<RegisterResponse>(
-    "/auth/register",
+    '/auth/register',
     params
   );
 

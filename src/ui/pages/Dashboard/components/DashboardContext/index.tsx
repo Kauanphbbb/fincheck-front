@@ -1,14 +1,14 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState } from 'react';
 
 interface DashboardContextValue {
   areValuesVisible: boolean;
   isNewAccountModalOpen: boolean;
   isNewTransactionModalOpen: boolean;
-  newTransactionType: "INCOME" | "EXPENSE" | null;
+  newTransactionType: 'INCOME' | 'EXPENSE' | null;
   toggleValuesVisibility: () => void;
   openNewAccountModal: () => void;
   closeNewAccountModal: () => void;
-  openNewTransactionModal: (type: "INCOME" | "EXPENSE") => void;
+  openNewTransactionModal: (type: 'INCOME' | 'EXPENSE') => void;
   closeNewTransactionModal: () => void;
 }
 
@@ -23,7 +23,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     useState(false);
 
   const [newTransactionType, setNewTransactionType] = useState<
-    "INCOME" | "EXPENSE" | null
+    'INCOME' | 'EXPENSE' | null
   >(null);
 
   const toggleValuesVisibility = useCallback(() => {
@@ -38,7 +38,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     setIsNewAccountModalOpen(false);
   }, []);
 
-  const openNewTransactionModal = useCallback((type: "INCOME" | "EXPENSE") => {
+  const openNewTransactionModal = useCallback((type: 'INCOME' | 'EXPENSE') => {
     setNewTransactionType(type);
     setIsNewTransactionModalOpen(true);
   }, []);

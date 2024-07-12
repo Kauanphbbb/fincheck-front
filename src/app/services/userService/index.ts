@@ -1,4 +1,4 @@
-import { me } from "./me";
+import { me } from './me';
 
 export const userService = {
   me,

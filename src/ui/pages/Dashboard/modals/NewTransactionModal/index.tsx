@@ -1,9 +1,9 @@
-import { DatePickerInput } from "../../../../components/DatePickerInput";
-import { Input } from "../../../../components/Input";
-import { InputCurrency } from "../../../../components/InputCurrency";
-import { Modal } from "../../../../components/Modal";
-import { Select } from "../../../../components/Select";
-import { useNewTransactionModalController } from "./useNewTransactionModalController";
+import { DatePickerInput } from '../../../../components/DatePickerInput';
+import { Input } from '../../../../components/Input';
+import { InputCurrency } from '../../../../components/InputCurrency';
+import { Modal } from '../../../../components/Modal';
+import { Select } from '../../../../components/Select';
+import { useNewTransactionModalController } from './useNewTransactionModalController';
 
 export function NewTransactionModal() {
   const {
@@ -12,18 +12,18 @@ export function NewTransactionModal() {
     newTransactionType,
   } = useNewTransactionModalController();
 
-  const isExpense = newTransactionType === "EXPENSE";
+  const isExpense = newTransactionType === 'EXPENSE';
 
   return (
     <Modal
-      title={isExpense ? "Nova despesa" : "Nova receita"}
+      title={isExpense ? 'Nova despesa' : 'Nova receita'}
       open={isNewTransactionModalOpen}
       onClose={closeNewTransactionModal}
     >
       <form>
         <div>
           <span className="text-gray-600 tracking-[=0.5px] text-xs">
-            Valor {isExpense ? "da despesa" : "da receita"}
+            Valor {isExpense ? 'da despesa' : 'da receita'}
           </span>
 
           <div className="flex items-center gap-2">
@@ -36,41 +36,41 @@ export function NewTransactionModal() {
           <Input
             type="text"
             name="name"
-            placeholder={isExpense ? "Nome da despesa" : "Nome da receita"}
+            placeholder={isExpense ? 'Nome da despesa' : 'Nome da receita'}
           />
 
           <Select
             placeholder="Categoria"
             options={[
               {
-                value: "INVESTMENT",
-                label: "Investimentos",
+                value: 'INVESTMENT',
+                label: 'Investimentos',
               },
               {
-                value: "CHECKING",
-                label: "Conta corrente",
+                value: 'CHECKING',
+                label: 'Conta corrente',
               },
               {
-                value: "CASH",
-                label: "Dinheiro",
+                value: 'CASH',
+                label: 'Dinheiro',
               },
             ]}
           />
 
           <Select
-            placeholder={isExpense ? "Pagar com" : "Receber com"}
+            placeholder={isExpense ? 'Pagar com' : 'Receber com'}
             options={[
               {
-                value: "INVESTMENT",
-                label: "Investimentos",
+                value: 'INVESTMENT',
+                label: 'Investimentos',
               },
               {
-                value: "CHECKING",
-                label: "Conta corrente",
+                value: 'CHECKING',
+                label: 'Conta corrente',
               },
               {
-                value: "CASH",
-                label: "Dinheiro",
+                value: 'CASH',
+                label: 'Dinheiro',
               },
             ]}
           />

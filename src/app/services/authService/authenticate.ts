@@ -1,5 +1,5 @@
-import { sleep } from "../../utils/sleep";
-import { httpClient } from "../httpClient";
+import { sleep } from '../../utils/sleep';
+import { httpClient } from '../httpClient';
 
 export interface AuthenticateParams {
   email: string;
@@ -13,7 +13,7 @@ interface AuthenticateResponse {
 export async function authenticate(params: AuthenticateParams) {
   await sleep(1000);
   const { data } = await httpClient.post<AuthenticateResponse>(
-    "/auth/authenticate",
+    '/auth/authenticate',
     params
   );
 

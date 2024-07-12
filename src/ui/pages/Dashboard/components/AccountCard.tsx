@@ -1,13 +1,13 @@
-import { cn } from "../../../../app/utils/cn";
-import { formatCurrency } from "../../../../app/utils/formatCurrency";
-import { BankAccountTypeIcon } from "../../../components/icons/BankAccountTypeIcon";
-import { useDashboard } from "./DashboardContext/useDashBoard";
+import { cn } from '../../../../app/utils/cn';
+import { formatCurrency } from '../../../../app/utils/formatCurrency';
+import { BankAccountTypeIcon } from '../../../components/icons/BankAccountTypeIcon';
+import { useDashboard } from './DashboardContext/useDashBoard';
 
 interface AccountCardProps {
   color: string;
   name: string;
   balance: number;
-  type: "CHECKING" | "INVESTMENT" | "CASH";
+  type: 'CHECKING' | 'INVESTMENT' | 'CASH';
 }
 
 export function AccountCard({ balance, color, name, type }: AccountCardProps) {
@@ -27,8 +27,8 @@ export function AccountCard({ balance, color, name, type }: AccountCardProps) {
       <div>
         <span
           className={cn(
-            "text-gray-800 font-medium tracking-[-0.5px] block",
-            !areValuesVisible && "blur-sm"
+            'text-gray-800 font-medium tracking-[-0.5px] block',
+            !areValuesVisible && 'blur-sm'
           )}
         >
           {formatCurrency(balance)}

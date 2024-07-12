@@ -1,8 +1,8 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { cn } from "../../../../../../app/utils/cn";
-import { Button } from "../../../../../components/Button";
-import { Modal } from "../../../../../components/Modal";
-import { useFiltersModal } from "./useFiltersModal";
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import { cn } from '../../../../../../app/utils/cn';
+import { Button } from '../../../../../components/Button';
+import { Modal } from '../../../../../components/Modal';
+import { useFiltersModal } from './useFiltersModal';
 
 interface FiltersModalProps {
   open: boolean;
@@ -11,16 +11,16 @@ interface FiltersModalProps {
 
 const mockedAccounts = [
   {
-    id: "1",
-    name: "XP Investimentos",
+    id: '1',
+    name: 'XP Investimentos',
   },
   {
-    id: "2",
-    name: "Nubank",
+    id: '2',
+    name: 'Nubank',
   },
   {
-    id: "3",
-    name: "Dinheiro",
+    id: '3',
+    name: 'Dinheiro',
   },
 ];
 
@@ -45,8 +45,8 @@ export function FiltersModal({ open, onClose }: FiltersModalProps) {
               key={account.id}
               onClick={() => handleSelectBankAccount(account.id)}
               className={cn(
-                "p-2 rounded-2xl w-full text-left hover:bg-gray-50 transition-colors",
-                selectedBankAccountId === account.id && "!bg-gray-200"
+                'p-2 rounded-2xl w-full text-left hover:bg-gray-50 transition-colors',
+                selectedBankAccountId === account.id && '!bg-gray-200'
               )}
             >
               {account.name}

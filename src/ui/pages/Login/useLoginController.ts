@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { z } from "zod";
-import { useAuth } from "../../../app/hooks/useAuth";
-import { authService } from "../../../app/services/authService";
-import { AuthenticateParams } from "../../../app/services/authService/authenticate";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { z } from 'zod';
+import { useAuth } from '../../../app/hooks/useAuth';
+import { authService } from '../../../app/services/authService';
+import { AuthenticateParams } from '../../../app/services/authService/authenticate';
 
 const schema = z.object({
-  email: z.string().email("Informe um e-mail válido"),
-  password: z.string().min(8, "Senha deve conter pelo menos 8 caracteres"),
+  email: z.string().email('Informe um e-mail válido'),
+  password: z.string().min(8, 'Senha deve conter pelo menos 8 caracteres'),
 });
 
 type LoginFormData = z.infer<typeof schema>;
@@ -36,7 +36,7 @@ export function useLoginController() {
       const { accessToken } = await mutateAsync(data);
       authenticate(accessToken);
     } catch {
-      toast.error("Credenciais inválidas");
+      toast.error('Credenciais inválidas');
     }
   });
 

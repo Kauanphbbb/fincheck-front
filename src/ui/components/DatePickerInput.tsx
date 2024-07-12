@@ -1,9 +1,9 @@
-import { CrossCircledIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
-import { cn } from "../../app/utils/cn";
-import { formatDate } from "../../app/utils/formatDate";
-import { DatePicker } from "./DatePicker";
-import { Popover } from "./Popover";
+import { CrossCircledIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
+import { cn } from '../../app/utils/cn';
+import { formatDate } from '../../app/utils/formatDate';
+import { DatePicker } from './DatePicker';
+import { Popover } from './Popover';
 
 interface DatePickerInputProps {
   error?: string;
@@ -20,8 +20,8 @@ export function DatePickerInput({ error, className }: DatePickerInputProps) {
           <button
             type="button"
             className={cn(
-              "bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px] text-gray-700 focus:border-gray-800 transition-all outline-none text-left relative pt-4",
-              error && "!border-red-900",
+              'bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px] text-gray-700 focus:border-gray-800 transition-all outline-none text-left relative pt-4',
+              error && '!border-red-900',
               className
             )}
           >

@@ -1,16 +1,16 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { MONTHS } from "../../../../../app/config/constants";
-import { cn } from "../../../../../app/utils/cn";
-import { formatCurrency } from "../../../../../app/utils/formatCurrency";
-import emptyStateImage from "../../../../../assets/empty-state.svg";
-import { Spinner } from "../../../../components/Spinner";
-import { FilterIcon } from "../../../../components/icons/FilterIcon";
-import { CategoryIcon } from "../../../../components/icons/categories/CategoryIcon";
-import { FiltersModal } from "./FiltersModal";
-import { SliderNavigation } from "./SliderNavigation";
-import { SliderOption } from "./SliderOption";
-import { TransactionTypeDropdown } from "./TransactionTypeDropdown";
-import { useTransactionsController } from "./useTransactionsController";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { MONTHS } from '../../../../../app/config/constants';
+import { cn } from '../../../../../app/utils/cn';
+import { formatCurrency } from '../../../../../app/utils/formatCurrency';
+import emptyStateImage from '../../../../../assets/empty-state.svg';
+import { Spinner } from '../../../../components/Spinner';
+import { FilterIcon } from '../../../../components/icons/FilterIcon';
+import { CategoryIcon } from '../../../../components/icons/categories/CategoryIcon';
+import { FiltersModal } from './FiltersModal';
+import { SliderNavigation } from './SliderNavigation';
+import { SliderOption } from './SliderOption';
+import { TransactionTypeDropdown } from './TransactionTypeDropdown';
+import { useTransactionsController } from './useTransactionsController';
 
 export function Transactions() {
   const {
@@ -101,8 +101,8 @@ export function Transactions() {
 
                   <span
                     className={cn(
-                      "text-red-800 tracking-[-0.5px] font-medium",
-                      !areValuesVisible && "blur-sm"
+                      'text-red-800 tracking-[-0.5px] font-medium',
+                      !areValuesVisible && 'blur-sm'
                     )}
                   >
                     - {formatCurrency(1000)}
@@ -125,8 +125,8 @@ export function Transactions() {
 
                   <span
                     className={cn(
-                      "text-green-800 tracking-[-0.5px] font-medium",
-                      !areValuesVisible && "blur-sm"
+                      'text-green-800 tracking-[-0.5px] font-medium',
+                      !areValuesVisible && 'blur-sm'
                     )}
                   >
                     + {formatCurrency(1000)}

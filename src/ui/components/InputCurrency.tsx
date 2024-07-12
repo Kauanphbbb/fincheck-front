@@ -1,4 +1,4 @@
-import { NumericFormat } from "react-number-format";
+import { NumericFormat } from 'react-number-format';
 
 export function InputCurrency() {
   return (

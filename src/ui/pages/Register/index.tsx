@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import { Button } from "../../components/Button";
-import { Input } from "../../components/Input";
-import { useRegisterController } from "./useRegisterController";
+import { Link } from 'react-router-dom';
+import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
+import { useRegisterController } from './useRegisterController';
 
 export function Register() {
   const { errors, handleSubmit, register, isPending } = useRegisterController();
@@ -27,19 +27,19 @@ export function Register() {
       <form className="mt-16 flex flex-col gap-4" onSubmit={handleSubmit}>
         <Input
           placeholder="Nome"
-          {...register("name")}
+          {...register('name')}
           error={errors.name?.message}
         />
         <Input
           type="email"
           placeholder="E-mail"
-          {...register("email")}
+          {...register('email')}
           error={errors.email?.message}
         />
         <Input
           type="password"
           placeholder="Senha"
-          {...register("password")}
+          {...register('password')}
           error={errors.password?.message}
         />
 

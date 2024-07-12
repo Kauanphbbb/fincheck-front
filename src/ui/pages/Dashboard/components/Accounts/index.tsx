@@ -1,13 +1,13 @@
-import { PlusIcon } from "@radix-ui/react-icons";
-import "swiper/css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { cn } from "../../../../../app/utils/cn";
-import { formatCurrency } from "../../../../../app/utils/formatCurrency";
-import { Spinner } from "../../../../components/Spinner";
-import { EyeIcon } from "../../../../components/icons/EyeIcon";
-import { AccountCard } from "../AccountCard";
-import { SliderNavigation } from "../SliderNavigation";
-import { useAccountsController } from "./useAccountsController";
+import { PlusIcon } from '@radix-ui/react-icons';
+import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { cn } from '../../../../../app/utils/cn';
+import { formatCurrency } from '../../../../../app/utils/formatCurrency';
+import { Spinner } from '../../../../components/Spinner';
+import { EyeIcon } from '../../../../components/icons/EyeIcon';
+import { AccountCard } from '../AccountCard';
+import { SliderNavigation } from '../SliderNavigation';
+import { useAccountsController } from './useAccountsController';
 
 export function Accounts() {
   const {
@@ -38,8 +38,8 @@ export function Accounts() {
             <div className="flex items-center gap-2">
               <strong
                 className={cn(
-                  "text-2xl tracking-[-1px] text-white",
-                  !areValuesVisible && "blur-md"
+                  'text-2xl tracking-[-1px] text-white',
+                  !areValuesVisible && 'blur-md'
                 )}
               >
                 {formatCurrency(1000.45)}

@@ -1,9 +1,9 @@
-import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput";
-import { Input } from "../../../../components/Input";
-import { InputCurrency } from "../../../../components/InputCurrency";
-import { Modal } from "../../../../components/Modal";
-import { Select } from "../../../../components/Select";
-import { useNewAccountModalController } from "./useNewAccountModalController";
+import { ColorsDropdownInput } from '../../../../components/ColorsDropdownInput';
+import { Input } from '../../../../components/Input';
+import { InputCurrency } from '../../../../components/InputCurrency';
+import { Modal } from '../../../../components/Modal';
+import { Select } from '../../../../components/Select';
+import { useNewAccountModalController } from './useNewAccountModalController';
 
 export function NewAccountModal() {
   const { closeNewAccountModal, isNewAccountModalOpen } =
@@ -31,16 +31,16 @@ export function NewAccountModal() {
             placeholder="Tipo"
             options={[
               {
-                value: "INVESTMENT",
-                label: "Investimentos",
+                value: 'INVESTMENT',
+                label: 'Investimentos',
               },
               {
-                value: "CHECKING",
-                label: "Conta corrente",
+                value: 'CHECKING',
+                label: 'Conta corrente',
               },
               {
-                value: "CASH",
-                label: "Dinheiro",
+                value: 'CASH',
+                label: 'Dinheiro',
               },
             ]}
           />
