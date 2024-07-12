@@ -19,10 +19,7 @@ export function InputCurrency({ error, onChange, value }: InputCurrencyProps) {
         value={value}
         thousandSeparator="."
         decimalSeparator=","
-        onChange={(event) => {
-          onChange?.(event.target.value);
-          console.log(event.target.value);
-        }}
+        onChange={(event) => onChange?.(event.target.value)}
       />
 
       {error && (

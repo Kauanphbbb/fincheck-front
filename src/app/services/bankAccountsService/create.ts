@@ -8,7 +8,7 @@ export interface BankAccountParams {
 }
 
 export async function create(params: BankAccountParams) {
-  const { data } = await httpClient.post('/auth/bank-accounts', params);
+  const { data } = await httpClient.post('/bank-accounts', params);
 
   return data;
 }
