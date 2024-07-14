@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -23,6 +24,8 @@ export function useEditAccountModalController() {
   const { isEditAccountModalOpen, closeEditAccountModal, accountBeingEdited } =
     useDashboard();
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const {
     handleSubmit: hookFormSubmit,
     register,
@@ -39,13 +42,19 @@ export function useEditAccountModalController() {
   });
 
   const queryClient = useQueryClient();
-  const { isPending, mutateAsync } = useMutation({
+
+  const { isPending, mutateAsync: updateAccount } = useMutation({
     mutationFn: bankAccountService.update,
   });
 
+  const { isPending: isPendingDelete, mutateAsync: removeAccount } =
+    useMutation({
+      mutationFn: bankAccountService.remove,
+    });
+
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      await mutateAsync({
+      await updateAccount({
         ...data,
         initialBalance: currencyStringToNumber(data.initialBalance),
         id: accountBeingEdited!.id,
@@ -59,6 +68,26 @@ export function useEditAccountModalController() {
     }
   });
 
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
+  async function handleDeleteAccount() {
+    try {
+      await removeAccount(accountBeingEdited!.id);
+
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
+      toast.success('Conta apagada com sucesso!');
+      closeEditAccountModal();
+    } catch {
+      toast.error('Erro ao apagar a conta!');
+    }
+  }
+
   return {
     isEditAccountModalOpen,
     closeEditAccountModal,
@@ -67,5 +96,10 @@ export function useEditAccountModalController() {
     handleSubmit,
     control,
     isPending,
+    isDeleteModalOpen,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    handleDeleteAccount,
+    isPendingDelete,
   };
 }

@@ -1,6 +1,8 @@
 import { Controller } from 'react-hook-form';
 import { Button } from '../../../../components/Button';
 import { ColorsDropdownInput } from '../../../../components/ColorsDropdownInput';
+import { ConfirmDeleteModal } from '../../../../components/ConfirmDeleteModal';
+import { TrashIcon } from '../../../../components/icons/TrashIcon';
 import { Input } from '../../../../components/Input';
 import { InputCurrency } from '../../../../components/InputCurrency';
 import { Modal } from '../../../../components/Modal';
@@ -16,13 +18,36 @@ export function EditAccountModal() {
     register,
     control,
     isPending,
+    handleOpenDeleteModal,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleDeleteAccount,
+    isPendingDelete,
   } = useEditAccountModalController();
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        onClose={handleCloseDeleteModal}
+        title="Tem certeza que deseja excluir essa conta?"
+        description="Ao excluir a conta, também serão excluidos todos os registros de
+            receita e despesas relacionados."
+        onConfirm={handleDeleteAccount}
+        isLoading={isPendingDelete}
+      />
+    );
+  }
 
   return (
     <Modal
       title="Editar conta"
       open={isEditAccountModalOpen}
       onClose={closeEditAccountModal}
+      rightAction={
+        <button onClick={handleOpenDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </button>
+      }
     >
       <form onSubmit={handleSubmit}>
         <div>
