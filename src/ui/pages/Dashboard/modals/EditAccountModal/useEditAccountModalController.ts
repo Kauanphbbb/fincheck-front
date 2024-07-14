@@ -8,7 +8,10 @@ import { currencyStringToNumber } from '../../../../../app/utils/currencyStringT
 import { useDashboard } from '../../components/DashboardContext/useDashBoard';
 
 const schema = z.object({
-  initialBalance: z.string().min(1, 'Saldo inicial é obrigatório'),
+  initialBalance: z.union([
+    z.string().min(1, 'Saldo inicial é obrigatório'),
+    z.number(),
+  ]),
   name: z.string().min(1, 'Nome da conta é obrigatório'),
   color: z.string().min(1, 'Cor é obrigatória'),
   type: z.enum(['CHECKING', 'INVESTMENT', 'CASH']),
@@ -17,21 +20,27 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function useEditAccountModalController() {
-  const { isEditAccountModalOpen, closeEditAccountModal } = useDashboard();
+  const { isEditAccountModalOpen, closeEditAccountModal, accountBeingEdited } =
+    useDashboard();
 
   const {
     handleSubmit: hookFormSubmit,
     register,
     formState: { errors },
     control,
-    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: accountBeingEdited?.name,
+      initialBalance: accountBeingEdited?.initialBalance,
+      color: accountBeingEdited?.color,
+      type: accountBeingEdited?.type,
+    },
   });
 
   const queryClient = useQueryClient();
   const { isPending, mutateAsync } = useMutation({
-    mutationFn: bankAccountService.create,
+    mutationFn: bankAccountService.update,
   });
 
   const handleSubmit = hookFormSubmit(async (data) => {
@@ -39,14 +48,14 @@ export function useEditAccountModalController() {
       await mutateAsync({
         ...data,
         initialBalance: currencyStringToNumber(data.initialBalance),
+        id: accountBeingEdited!.id,
       });
 
       queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-      toast.success('Conta cadastrada com sucesso!');
+      toast.success('Conta atualizada com sucesso!');
       closeEditAccountModal();
-      reset();
     } catch {
-      toast.error('Erro ao cadastrar a conta!');
+      toast.error('Erro ao atualizar a conta!');
     }
   });
 
