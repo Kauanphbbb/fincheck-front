@@ -1,29 +1,45 @@
-import { CrossCircledIcon } from '@radix-ui/react-icons';
-import { NumericFormat } from 'react-number-format';
-import { cn } from '../../app/utils/cn';
+import { CrossCircledIcon } from "@radix-ui/react-icons";
+import CurrencyInput from "react-currency-input-field";
+import { cn } from "../../app/utils/cn";
 
 interface InputCurrencyProps {
   error?: string;
-  onChange?: (value: string) => void;
   value?: string | number;
+  defaultValue: string | number;
+  className?: string;
+  onChange(value?: string): void;
 }
 
-export function InputCurrency({ error, onChange, value }: InputCurrencyProps) {
+export function InputCurrency({
+  error,
+  value,
+  onChange,
+  className,
+  defaultValue,
+}: InputCurrencyProps) {
+  function handleTransform(value: string) {
+    return value.length === 0 ? "0" : value;
+  }
+
   return (
-    <div>
-      <NumericFormat
-        className={cn(
-          'text-gray-800 text-[32px] font-bold tracking-[-1px] outline-none w-full',
-          error && 'text-red-900'
-        )}
-        value={value}
-        thousandSeparator="."
+    <div className={cn(error && "relative top-4")}>
+      <CurrencyInput
+        groupSeparator="."
         decimalSeparator=","
-        onChange={(event) => onChange?.(event.target.value)}
+        decimalScale={2}
+        value={value}
+        defaultValue={defaultValue}
+        onValueChange={(value) => onChange(value)}
+        transformRawValue={handleTransform}
+        className={cn(
+          "w-full text-gray-800 text-[32px] font-bold tracking-[-1px] outline-none",
+          error && "text-red-900",
+          className
+        )}
       />
 
       {error && (
-        <div className="flex gap-2 items-center mt-2 text-red-900">
+        <div className="mt-2 flex gap-2 items-center text-red-900">
           <CrossCircledIcon />
           <span className="text-xs">{error}</span>
         </div>
@@ -31,3 +47,11 @@ export function InputCurrency({ error, onChange, value }: InputCurrencyProps) {
     </div>
   );
 }
+
+InputCurrency.defaultProps = {
+  value: null,
+  defaultValue: null,
+  error: "",
+  className: "",
+  onChange: null,
+};
