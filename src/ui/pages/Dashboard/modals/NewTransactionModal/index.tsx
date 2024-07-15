@@ -16,6 +16,9 @@ export function NewTransactionModal() {
     errors,
     handleSubmit,
     register,
+    accounts,
+    isPending,
+    categories,
   } = useNewTransactionModalController();
 
   const isExpense = newTransactionType === 'EXPENSE';
@@ -37,12 +40,12 @@ export function NewTransactionModal() {
             <Controller
               control={control}
               name="value"
-              defaultValue="0"
+              defaultValue={0}
               render={({ field: { onChange, value } }) => (
                 <InputCurrency
                   error={errors.value?.message}
-                  onChange={onChange}
                   value={value}
+                  onChange={onChange}
                 />
               )}
             />
@@ -67,20 +70,10 @@ export function NewTransactionModal() {
                 onChange={onChange}
                 placeholder="Categoria"
                 error={errors.categoryId?.message}
-                options={[
-                  {
-                    value: 'INVESTMENT',
-                    label: 'Investimentos',
-                  },
-                  {
-                    value: 'CHECKING',
-                    label: 'Conta corrente',
-                  },
-                  {
-                    value: 'CASH',
-                    label: 'Dinheiro',
-                  },
-                ]}
+                options={categories.map((category) => ({
+                  value: category.id,
+                  label: category.name,
+                }))}
               />
             )}
           />
@@ -95,20 +88,10 @@ export function NewTransactionModal() {
                 onChange={onChange}
                 error={errors.bankAccountId?.message}
                 placeholder={isExpense ? 'Pagar com' : 'Receber com'}
-                options={[
-                  {
-                    value: 'INVESTMENT',
-                    label: 'Investimentos',
-                  },
-                  {
-                    value: 'CHECKING',
-                    label: 'Conta corrente',
-                  },
-                  {
-                    value: 'CASH',
-                    label: 'Dinheiro',
-                  },
-                ]}
+                options={accounts.map((account) => ({
+                  value: account.id,
+                  label: account.name,
+                }))}
               />
             )}
           />
@@ -116,11 +99,14 @@ export function NewTransactionModal() {
           <Controller
             control={control}
             name="date"
-            render={({ field: { value } }) => <DatePickerInput value={value} />}
+            defaultValue={new Date()}
+            render={({ field: { value } }) => (
+              <DatePickerInput error={errors.date?.message} value={value} />
+            )}
           />
         </div>
 
-        <Button className="mt-6 w-full" type="submit">
+        <Button className="mt-6 w-full" type="submit" isPending={isPending}>
           Criar
         </Button>
       </form>

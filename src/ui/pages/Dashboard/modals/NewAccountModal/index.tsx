@@ -34,12 +34,11 @@ export function NewAccountModal() {
             <Controller
               control={control}
               name="initialBalance"
-              defaultValue="0"
               render={({ field: { onChange, value } }) => (
                 <InputCurrency
                   error={errors.initialBalance?.message}
-                  onChange={onChange}
                   value={value}
+                  onChange={onChange}
                 />
               )}
             />
