@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { MONTHS } from '../../../../../app/config/constants';
 import { cn } from '../../../../../app/utils/cn';
 import { formatCurrency } from '../../../../../app/utils/formatCurrency';
+import { formatDate } from '../../../../../app/utils/formatDate';
 import emptyStateImage from '../../../../../assets/empty-state.svg';
 import { Spinner } from '../../../../components/Spinner';
 import { FilterIcon } from '../../../../components/icons/FilterIcon';
@@ -21,6 +22,8 @@ export function Transactions() {
     isFiltersModalOpen,
     handleOpenFiltersModal,
     handleCloseFiltersModal,
+    handleChangeMonth,
+    filters,
   } = useTransactionsController();
 
   const hasTransactions = transactions.length > 0;
@@ -50,7 +53,14 @@ export function Transactions() {
             </div>
 
             <div className="mt-6 relative">
-              <Swiper slidesPerView={3} centeredSlides>
+              <Swiper
+                slidesPerView={3}
+                centeredSlides
+                onSlideChange={(swiper) => {
+                  handleChangeMonth(swiper.realIndex);
+                }}
+                initialSlide={filters.month}
+              >
                 <SliderNavigation />
                 {MONTHS.map((month, index) => (
                   <SwiperSlide key={month}>
@@ -83,57 +93,45 @@ export function Transactions() {
               </div>
             )}
 
-            {hasTransactions && !isLoading && (
-              <>
-                <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
+            {hasTransactions &&
+              !isLoading &&
+              transactions.map((transaction) => (
+                <div
+                  className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4"
+                  key={transaction.id}
+                >
                   <div className="flex- flex items-center gap-3">
-                    <CategoryIcon type="expense" />
+                    <CategoryIcon
+                      type={
+                        transaction.type === 'EXPENSE' ? 'expense' : 'income'
+                      }
+                      category={transaction.category?.icon}
+                    />
 
                     <div>
                       <strong className="font-bold tracking-[-0.5px] block">
-                        Almoço
+                        {transaction.name}
                       </strong>
                       <span className="text-small text-gray-600">
-                        02/10/2020
+                        {formatDate(new Date(transaction.date))}
                       </span>
                     </div>
                   </div>
 
                   <span
                     className={cn(
-                      'text-red-800 tracking-[-0.5px] font-medium',
-                      !areValuesVisible && 'blur-sm'
+                      'tracking-[-0.5px] font-medium',
+                      !areValuesVisible && 'blur-sm',
+                      transaction.type === 'EXPENSE'
+                        ? 'text-red-800'
+                        : 'text-green-800'
                     )}
                   >
-                    - {formatCurrency(1000)}
+                    {transaction.type === 'EXPENSE' ? '-' : '+'}{' '}
+                    {formatCurrency(transaction.value)}
                   </span>
                 </div>
-
-                <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
-                  <div className="flex- flex items-center gap-3">
-                    <CategoryIcon type="income" />
-
-                    <div>
-                      <strong className="font-bold tracking-[-0.5px] block">
-                        Almoço
-                      </strong>
-                      <span className="text-small text-gray-600">
-                        02/10/2020
-                      </span>
-                    </div>
-                  </div>
-
-                  <span
-                    className={cn(
-                      'text-green-800 tracking-[-0.5px] font-medium',
-                      !areValuesVisible && 'blur-sm'
-                    )}
-                  >
-                    + {formatCurrency(1000)}
-                  </span>
-                </div>
-              </>
-            )}
+              ))}
           </div>
         </>
       )}
