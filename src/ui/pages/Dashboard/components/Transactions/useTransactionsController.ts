@@ -38,6 +38,15 @@ export function useTransactionsController() {
     setIsFiltersModalOpen(false);
   }
 
+  function handleApplyFilters(filters: {
+    bankAccountId?: string;
+    year: number;
+  }) {
+    handleChangeFilters('year')(filters.year);
+    handleChangeFilters('bankAccountId')(filters.bankAccountId);
+    handleCloseFiltersModal();
+  }
+
   return {
     areValuesVisible,
     isInitialLoading: isLoading,
@@ -48,5 +57,6 @@ export function useTransactionsController() {
     isFiltersModalOpen,
     handleChangeFilters,
     filters,
+    handleApplyFilters,
   };
 }
