@@ -1,7 +1,9 @@
 import { Controller } from 'react-hook-form';
 import { Transaction } from '../../../../../app/entities/Transaction';
 import { Button } from '../../../../components/Button';
+import { ConfirmDeleteModal } from '../../../../components/ConfirmDeleteModal';
 import { DatePickerInput } from '../../../../components/DatePickerInput';
+import { TrashIcon } from '../../../../components/icons/TrashIcon';
 import { Input } from '../../../../components/Input';
 import { InputCurrency } from '../../../../components/InputCurrency';
 import { Modal } from '../../../../components/Modal';
@@ -27,15 +29,38 @@ export function EditTransactionModal({
     accounts,
     isPending,
     categories,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleDeleteTransaction,
+    isPendingDelete,
+    handleOpenDeleteModal,
   } = useEditTransactionModalController(transaction, onClose);
 
   const isExpense = transaction?.type === 'EXPENSE';
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        onClose={handleCloseDeleteModal}
+        title={`Tem certeza que deseja excluir essa ${
+          isExpense ? 'despesa' : 'receita'
+        }?`}
+        onConfirm={handleDeleteTransaction}
+        isLoading={isPendingDelete}
+      />
+    );
+  }
 
   return (
     <Modal
       title={isExpense ? 'Editar despesa' : 'Editar receita'}
       open={open}
       onClose={onClose}
+      rightAction={
+        <button onClick={handleOpenDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </button>
+      }
     >
       <form onSubmit={handleSubmit}>
         <div>

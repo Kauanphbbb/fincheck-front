@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -44,15 +44,22 @@ export function useEditTransactionModalController(
 
   const { categories: categoriesList } = useCategories();
 
-  const { mutateAsync, isPending } = useMutation({
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const { mutateAsync: updateTransaction, isPending } = useMutation({
     mutationFn: transactionsService.update,
   });
+
+  const { isPending: isPendingDelete, mutateAsync: removeTransaction } =
+    useMutation({
+      mutationFn: transactionsService.remove,
+    });
 
   const queryClient = useQueryClient();
 
   const handleSubmit = handleSubmitHookForm(async (data) => {
     try {
-      await mutateAsync({
+      await updateTransaction({
         ...data,
         id: transaction!.id,
         type: transaction!.type,
@@ -82,6 +89,26 @@ export function useEditTransactionModalController(
     [categoriesList, transaction]
   );
 
+  async function handleDeleteTransaction() {
+    try {
+      await removeTransaction(transaction!.id);
+
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      toast.success('Transação apagada com sucesso!');
+      onClose();
+    } catch {
+      toast.error('Erro ao apagar a transação!');
+    }
+  }
+
+  function handleCloseDeleteModal() {
+    setIsDeleteModalOpen(false);
+  }
+
+  function handleOpenDeleteModal() {
+    setIsDeleteModalOpen(true);
+  }
+
   return {
     register,
     errors,
@@ -90,5 +117,10 @@ export function useEditTransactionModalController(
     accounts,
     categories,
     isPending,
+    isDeleteModalOpen,
+    isPendingDelete,
+    handleDeleteTransaction,
+    handleCloseDeleteModal,
+    handleOpenDeleteModal,
   };
 }
