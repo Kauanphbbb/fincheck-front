@@ -3,6 +3,7 @@ export interface Transaction {
   name: string;
   value: number;
   date: string;
+  bankAccountId: string;
   type: 'INCOME' | 'EXPENSE';
   category?: {
     id: string;

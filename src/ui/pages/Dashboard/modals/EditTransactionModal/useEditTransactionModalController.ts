@@ -4,11 +4,11 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
+import { Transaction } from '../../../../../app/entities/Transaction';
 import { useBankAccounts } from '../../../../../app/hooks/useBankAccounts';
 import { useCategories } from '../../../../../app/hooks/useCategories';
 import { transactionsService } from '../../../../../app/services/transactionsService';
 import { currencyStringToNumber } from '../../../../../app/utils/currencyStringToNumber';
-import { useDashboard } from '../../components/DashboardContext/useDashBoard';
 
 const schema = z.object({
   value: z.union([z.string().min(1, 'Informe o valor'), z.number()]),
@@ -20,21 +20,24 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function useNewTransactionModalController() {
-  const {
-    isNewTransactionModalOpen,
-    closeNewTransactionModal,
-    newTransactionType,
-  } = useDashboard();
-
+export function useEditTransactionModalController(
+  transaction: Transaction | null,
+  onClose: () => void
+) {
   const {
     register,
     handleSubmit: handleSubmitHookForm,
     control,
     formState: { errors },
-    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: transaction?.name,
+      bankAccountId: transaction?.bankAccountId,
+      categoryId: transaction?.category?.id,
+      date: transaction ? new Date(transaction.date) : new Date(),
+      value: transaction?.value,
+    },
   });
 
   const { accounts } = useBankAccounts();
@@ -42,7 +45,7 @@ export function useNewTransactionModalController() {
   const { categories: categoriesList } = useCategories();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: transactionsService.create,
+    mutationFn: transactionsService.update,
   });
 
   const queryClient = useQueryClient();
@@ -51,36 +54,35 @@ export function useNewTransactionModalController() {
     try {
       await mutateAsync({
         ...data,
+        id: transaction!.id,
+        type: transaction!.type,
         value: currencyStringToNumber(data.value),
-        type: newTransactionType!,
         date: data.date.toISOString(),
       });
 
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       toast.success(
-        newTransactionType === 'INCOME' ? 'Receita criada' : 'Despesa criada'
+        transaction!.type === 'INCOME'
+          ? 'Receita editada com sucesso'
+          : 'Despesa editada com sucesso!'
       );
-      closeNewTransactionModal();
-      reset();
+      onClose();
     } catch {
       toast.error(
-        newTransactionType === 'INCOME'
-          ? 'Erro ao criar a receita'
-          : 'Erro ao criar a despesa'
+        transaction!.type === 'INCOME'
+          ? 'Erro ao editar a receita'
+          : 'Erro ao editar a despesa'
       );
     }
   });
 
   const categories = useMemo(
     () =>
-      categoriesList.filter((category) => category.type === newTransactionType),
-    [categoriesList, newTransactionType]
+      categoriesList.filter((category) => category.type === transaction?.type),
+    [categoriesList, transaction]
   );
 
   return {
-    isNewTransactionModalOpen,
-    closeNewTransactionModal,
-    newTransactionType,
     register,
     errors,
     control,
